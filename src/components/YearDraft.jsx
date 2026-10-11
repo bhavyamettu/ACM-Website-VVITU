@@ -6,27 +6,43 @@ export default function YearDraft() {
   const { tl, openSub } = useNav();
   const { subEventsFor } = useCms();
 
-  const list = tl.cat && tl.year ? subEventsFor(tl.cat, tl.year) : [];
+  const list =
+    tl.cat && tl.year ? subEventsFor(tl.cat, tl.year) : [];
 
-  const mainEvents = list.filter((s) => s.eventSection !== 'spot');
-  const spotEvents = list.filter((s) => s.eventSection === 'spot');
+  const mainEvents = list.filter(
+    (s) => s.eventSection !== 'spot'
+  );
+
+  const spotEvents = list.filter(
+    (s) => s.eventSection === 'spot'
+  );
 
   const renderCards = (events) =>
     events.map((s) => (
       <button
         key={s._key}
+        type="button"
         className="se-card"
-        onClick={() => openSub({ ...s, event: tl.cat, year: tl.year })}
+        onClick={() =>
+          openSub({
+            ...s,
+            event: tl.cat,
+            year: tl.year,
+          })
+        }
       >
         <span className="se-img">
           {s.posterUrl ? (
-            <img src={s.posterUrl} alt={s.title} />
+            <img src={s.posterUrl} alt={s.title || 'Event poster'} />
           ) : (
             <i>No poster</i>
           )}
         </span>
+
         <b>{s.title}</b>
+
         {s.description && <small>{s.description}</small>}
+
         <small>
           {s.eventSection === 'spot' ? 'Spot Event' : 'Main Event'}
         </small>
@@ -50,12 +66,18 @@ export default function YearDraft() {
           {mainEvents.length > 0 && (
             <section className="se-section">
               <h3 className="se-section-title">MAIN EVENTS</h3>
-              <div className="se-grid">{renderCards(mainEvents)}</div>
+              <div className="se-grid">
+                {renderCards(mainEvents)}
+              </div>
             </section>
           )}
 
           {mainEvents.length > 0 && spotEvents.length > 0 && (
-            <div className="se-section-divider">
+            <div
+              className="se-section-divider"
+              role="separator"
+              aria-label="Spot events"
+            >
               <span>SPOT EVENTS</span>
             </div>
           )}
@@ -65,7 +87,10 @@ export default function YearDraft() {
               {mainEvents.length === 0 && (
                 <h3 className="se-section-title">SPOT EVENTS</h3>
               )}
-              <div className="se-grid">{renderCards(spotEvents)}</div>
+
+              <div className="se-grid">
+                {renderCards(spotEvents)}
+              </div>
             </section>
           )}
         </div>
@@ -73,4 +98,3 @@ export default function YearDraft() {
     </div>
   );
 }
-
