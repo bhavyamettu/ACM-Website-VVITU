@@ -1,17 +1,42 @@
+
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { client, sanityConfigured, urlFor } from './sanity.js';
 import { SITE_QUERY } from './queries.js';
-import { CATEGORY_COLORS, LOCAL_PHOTOS, PLACEHOLDER_TEAM, YRS } from '../data/content.js';
+import {
+  CATEGORY_COLORS,
+  LOCAL_PHOTOS,
+  PLACEHOLDER_TEAM,
+  YRS,
+} from '../data/content.js';
 import { FALLBACK } from '../data/fallback.js';
 
-const EMPTY = { events: [], team: [], community: [], blogs: [], calendar: [] };
-const CmsContext = createContext({ ...EMPTY, loading: false });
+const EMPTY = {
+  events: [],
+  team: [],
+  community: [],
+  blogs: [],
+  calendar: [],
+};
+
+const CmsContext = createContext({
+  ...EMPTY,
+  loading: false,
+  error: null,
+});
 
 export function CmsProvider({ children }) {
-  const [state, setState] = useState({ data: EMPTY, loading: sanityConfigured, error: null });
+  const [state, setState] = useState({
+    data: EMPTY,
+    loading: sanityConfigured,
+    error: null,
+  });
 
   useEffect(() => {
-    if (!client) return;
+    if (!client) {
+      setState({ data: EMPTY, loading: false, error: null });
+      return;
+    }
+
     let off = false;
 
     client
@@ -19,26 +44,40 @@ export function CmsProvider({ children }) {
       .then((data) => {
         if (off) return;
 
-        const n = Object.values(data).reduce(
-          (a, list) => a + (Array.isArray(list) ? list.length : 0),
-          0
-        );
+        const safeData = {
+          ...EMPTY,
+          ...data,
+          events: Array.isArray(data?.events) ? data.events : [],
+          team: Array.isArray(data?.team) ? data.team : [],
+          community: Array.isArray(data?.community) ? data.community : [],
+          blogs: Array.isArray(data?.blogs) ? data.blogs : [],
+          calendar: Array.isArray(data?.calendar) ? data.calendar : [],
+        };
 
-        if (!n) {
+        console.info('[Sanity] Blog posts returned:', safeData.blogs.length);
+
+        if (safeData.blogs.length === 0) {
           console.warn(
-            '[Sanity] Connected, but no PUBLISHED documents were returned. In Studio, click "Publish" on each document, and check the dataset name matches VITE_SANITY_DATASET.'
+            '[Sanity] No published blog posts found. Check the blog query and publish your blog document in Sanity Studio.'
           );
         }
 
-        setState({ data: { ...EMPTY, ...data }, loading: false, error: null });
+        setState({
+          data: safeData,
+          loading: false,
+          error: null,
+        });
       })
       .catch((error) => {
-        console.error(
-          '[Sanity] Fetch failed. Check the Sanity CORS origins, project ID, and dataset. Details:',
-          error
-        );
+        console.error('[Sanity] Fetch failed:', error);
 
-        if (!off) setState({ data: EMPTY, loading: false, error });
+        if (!off) {
+          setState({
+            data: EMPTY,
+            loading: false,
+            error,
+          });
+        }
       });
 
     return () => {
@@ -50,23 +89,35 @@ export function CmsProvider({ children }) {
     const { data } = state;
 
     const group = (visibility) => {
-      const own = data.events.filter((event) => event.visibility === visibility);
+      const own = data.events.filter(
+        (event) => event.visibility === visibility
+      );
+
       return own.length
         ? own
-        : FALLBACK.events.filter((event) => event.visibility === visibility);
+        : FALLBACK.events.filter(
+            (event) => event.visibility === visibility
+          );
     };
 
     const events = [...group('public'), ...group('private')];
 
     const members = (type) => {
-      const own = data.community.filter((member) => member.membershipType === type);
+      const own = data.community.filter(
+        (member) => member.membershipType === type
+      );
+
       return own.length
         ? own
-        : FALLBACK.community.filter((member) => member.membershipType === type);
+        : FALLBACK.community.filter(
+            (member) => member.membershipType === type
+          );
     };
 
     const community = [...members('acm'), ...members('acmw')];
-    const blogs = data.blogs.length ? data.blogs : FALLBACK.blogs;
+
+    // Use Sanity blog posts only; do not substitute fallback blog content.
+    const blogs = data.blogs;
 
     const card = (member) => ({
       n: member.name,
@@ -76,7 +127,11 @@ export function CmsProvider({ children }) {
       gh: member.github,
       p: LOCAL_PHOTOS[member.name],
       photo: member.photo
-        ? urlFor(member.photo).width(240).height(240).fit('crop').url()
+        ? urlFor(member.photo)
+            .width(240)
+            .height(240)
+            .fit('crop')
+            .url()
         : null,
     });
 
@@ -115,6 +170,7 @@ export function CmsProvider({ children }) {
     });
 
     const calendar = {};
+
     const calendarEvents = data.calendar.length
       ? data.calendar
       : FALLBACK.calendar;

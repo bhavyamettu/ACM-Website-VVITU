@@ -1,50 +1,124 @@
-import { PortableText } from '@portabletext/react';
-import { useNav } from '../NavContext.jsx';
 import { useCms } from '../lib/CmsContext.jsx';
 import { urlFor } from '../lib/sanity.js';
-import { BLOG_STUB } from '../data/fallback.js';
 
-const GRADIENTS = ['#1c3557,#4a78a8', '#3b4a5c,#8ea3b8', '#8a6a48,#d9c2a0', '#0f2547,#2f5c9a', '#4a7a9c,#a9c98f', '#3d4d5f,#c8b48f'];
+const formatDate = (date) => {
+  if (!date) return '';
 
-const fmt = (d) => (d ? new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '');
+  const parsedDate = new Date(`${date}T00:00:00`);
+
+  if (Number.isNaN(parsedDate.getTime())) return date;
+
+  return parsedDate.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+};
 
 export default function BlogGrid() {
-  const { showModal } = useNav();
-  const { blogs } = useCms();
+  const { blogs = [], loading, error } = useCms();
 
-  const open = (b) =>
-    showModal(
-      b.title,
-      <>
-        {b.author && <p style={{ opacity: 0.7, marginBottom: 10 }}>By {b.author}</p>}
-        {b.body?.length ? <PortableText value={b.body} /> : <p>{b.excerpt + BLOG_STUB}</p>}
-      </>
+  
+
+  const publishedBlogs = blogs.filter(
+    (blog) => blog.published === true && blog.blogUrl
+  );
+
+  if (loading) {
+    return (
+      <div className="bg3" id="bgrid">
+        <p>Loading blogs...</p>
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="bg3" id="bgrid">
+        <p>Unable to load blogs. Please try again later.</p>
+      </div>
+    );
+  }
+
+  if (publishedBlogs.length === 0) {
+    return (
+      <div className="bg3" id="bgrid">
+        <p>No blog posts are available yet.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg3" id="bgrid">
-      {blogs.map((b, i) => (
-        <article className="bl" style={{ '--i': i }} key={b._id}>
-          <div className="im">
-            <i
-              style={
-                b.coverImage
-                  ? { background: `center/cover url(${urlFor(b.coverImage).width(800).url()})` }
-                  : { background: `linear-gradient(135deg,${b.gradient || GRADIENTS[i % GRADIENTS.length]})` }
-              }
-            ></i>
-          </div>
-          <small>
-            <span>{(b.category || '').toUpperCase()}</span>
-            <span style={{ fontWeight: 400, color: '#4b5b78', letterSpacing: 0 }}>{fmt(b.date)}</span>
-          </small>
-          <h3>{b.title}</h3>
-          <p>{b.excerpt}</p>
-          <button className="rm" onClick={() => open(b)}>
-            Read More <span>→</span>
-          </button>
-        </article>
-      ))}
+      {publishedBlogs.map((blog, index) => {
+        const imageUrl = blog.coverImage
+          ? urlFor(blog.coverImage)?.width(800).url()
+          : null;
+
+        return (
+          <article
+            className="bl"
+            style={{ '--i': index }}
+            key={blog._id}
+          >
+            <a
+              href={blog.blogUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Read ${blog.title} on the official blog`}
+              style={{
+                display: 'block',
+                color: 'inherit',
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <div className="im">
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt={blog.title || 'Blog cover'}
+                    loading="lazy"
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      minHeight: '180px',
+                      display: 'grid',
+                      placeItems: 'center',
+                    }}
+                  >
+                    Blog
+                  </div>
+                )}
+              </div>
+
+              <small>
+                <span>ACM BLOG</span>
+                <span
+                  style={{
+                    fontWeight: 400,
+                    color: '#4b5b78',
+                    letterSpacing: 0,
+                  }}
+                >
+                  {formatDate(blog.date)}
+                </span>
+              </small>
+
+              <h3>{blog.title}</h3>
+            </a>
+          </article>
+        );
+      })}
     </div>
   );
 }

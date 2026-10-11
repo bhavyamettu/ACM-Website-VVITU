@@ -232,3 +232,35 @@ th {
 .card {
   overflow-x: hidden;
 }
+.se-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.se-section-title {
+  margin: 0 0 12px;
+  color: #102f56;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.se-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0;
+  color: #102f56;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.se-section-divider::before,
+.se-section-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #102f56;
+}
+

@@ -1,25 +1,71 @@
+
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'blogPost',
   title: 'Blog Post',
   type: 'document',
+
   fields: [
-    defineField({ name: 'title', title: 'Title', type: 'string', validation: (r) => r.required() }),
     defineField({
-      name: 'category',
-      title: 'Category',
+      name: 'title',
+      title: 'Blog Heading',
       type: 'string',
-      options: { list: ['Tech & Trends', 'Community', 'Leadership', 'Events', 'Campus Life'] },
-      validation: (r) => r.required(),
+      validation: (Rule) => Rule.required(),
     }),
-    defineField({ name: 'date', title: 'Date', type: 'date', validation: (r) => r.required() }),
-    defineField({ name: 'excerpt', title: 'Excerpt', type: 'text', rows: 3, validation: (r) => r.required().max(240) }),
-    defineField({ name: 'coverImage', title: 'Cover image', type: 'image', options: { hotspot: true } }),
-    defineField({ name: 'author', title: 'Author', type: 'string' }),
-    defineField({ name: 'body', title: 'Content', type: 'array', of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }] }),
-    defineField({ name: 'published', title: 'Published', type: 'boolean', initialValue: false }),
+
+    defineField({
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: { hotspot: true },
+      validation: (Rule) => Rule.required(),
+    }),
+
+    defineField({
+      name: 'date',
+      title: 'Published Date',
+      type: 'date',
+      validation: (Rule) => Rule.required(),
+    }),
+
+    defineField({
+      name: 'blogUrl',
+      title: 'Official Blog URL',
+      type: 'url',
+      description: 'Link to the official blog article',
+      validation: (Rule) =>
+        Rule.required().uri({
+          scheme: ['http', 'https'],
+        }),
+    }),
+
+    defineField({
+      name: 'published',
+      title: 'Published',
+      type: 'boolean',
+      initialValue: false,
+    }),
   ],
-  orderings: [{ title: 'Newest first', name: 'dateDesc', by: [{ field: 'date', direction: 'desc' }] }],
-  preview: { select: { title: 'title', subtitle: 'date', media: 'coverImage', published: 'published' }, prepare: ({ title, subtitle, media, published }) => ({ title, subtitle: `${subtitle || ''} ${published ? '' : '(draft)'}`, media }) },
+
+  orderings: [
+    {
+      title: 'Newest First',
+      name: 'dateDesc',
+      by: [{ field: 'date', direction: 'desc' }],
+    },
+  ],
+
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'date',
+      media: 'coverImage',
+    },
+    prepare: ({ title, subtitle, media }) => ({
+      title,
+      subtitle: subtitle || 'No date selected',
+      media,
+    }),
+  },
 });

@@ -8,6 +8,7 @@ export const SITE_QUERY = `{
       _key,
       academicYear,
       title,
+      eventSection,
       description,
       poster,
       "pdfUrl": pdf.asset->url
@@ -41,12 +42,10 @@ export const SITE_QUERY = `{
   "blogs": *[_type == "blogPost" && published == true] | order(date desc) {
     _id,
     title,
-    category,
-    date,
-    excerpt,
     coverImage,
-    author,
-    body
+    date,
+    blogUrl,
+    published
   },
 
   "calendar": *[_type == "calendarEvent"] | order(date asc, startTime asc) {
