@@ -1,0 +1,21 @@
+{
+  "name": "acm-vvitu-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "seed": "node scripts/seed.mjs"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.29.1",
+    "@sanity/vision": "^3.60.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity": "^3.60.0",
+    "styled-components": "^6.1.0",
+    "xlsx": "^0.18.5"
+  }
+}
