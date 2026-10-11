@@ -118,70 +118,100 @@ export default function MemberList({ kind, year = YRS[0] }) {
       </div>
 
       <div
-  className="card rv"
-  style={{
-    "--i": 3,
-    marginTop: 30,
-  }}
->
-  <table
-    style={{
-      width: "100%",
-      borderCollapse: "collapse",
-      tableLayout: "fixed",
-      fontSize: "13px",
-    }}
-  >
-    <thead>
-      <tr>
-        <th style={{ width: "25%" }}>Name</th>
-        <th style={{ width: "15%" }}>Roll No</th>
-        <th style={{ width: "18%" }}>Branch</th>
-        <th style={{ width: "18%" }}>Phone No</th>
-        <th style={{ width: "24%" }}>Membership ID</th>
-      </tr>
-    </thead>
+        className="card rv"
+        style={{
+          '--i': 3,
+          marginTop: 30,
+        }}
+      >
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            tableLayout: 'fixed',
+            fontSize: '13px',
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ width: '25%' }}>Name</th>
+              <th style={{ width: '15%' }}>Roll No</th>
+              <th style={{ width: '18%' }}>Branch</th>
+              <th style={{ width: '18%' }}>Phone No</th>
+              <th style={{ width: '24%' }}>Membership ID</th>
+            </tr>
+          </thead>
 
-    <tbody>
-      {rows.length === 0 && (
-        <tr>
-          <td colSpan={5} style={{ textAlign: "center", padding: "20px" }}>
-            No members listed for {year} yet.
-          </td>
-        </tr>
-      )}
+          <tbody>
+            {rows.length === 0 && (
+              <tr>
+                <td
+                  colSpan={5}
+                  style={{
+                    textAlign: 'center',
+                    padding: '20px',
+                  }}
+                >
+                  No members listed for {year} yet.
+                </td>
+              </tr>
+            )}
 
-      {rows.map((row) => {
-        const m = team.find((p) => sameName(p.n, row.name));
+            {rows.map((row) => {
+              const m = team.find(
+                (p) => sameName(p.n, row.name)
+              );
 
-        return (
-          <tr key={row._id}>
-            <td
-              className={m ? "td-tm" : undefined}
-              data-r={m?.r}
-              title={m ? "Team · " + m.r : undefined}
-              style={{ wordBreak: "break-word", padding: "8px" }}
-            >
-              {row.name}
-            </td>
+              return (
+                <tr
+                  key={row._id}
+                  className={m ? 'tr-tm' : undefined}
+                  title={m ? `Team · ${m.r}` : undefined}
+                >
+                  <td
+                    className={m ? 'td-tm' : undefined}
+                    data-r={m?.r}
+                    style={{
+                      wordBreak: 'break-word',
+                      padding: '8px',
+                    }}
+                  >
+                    {row.name}
 
-            <td style={{ padding: "8px" }}>{row.rollNo}</td>
+                    
+                  </td>
 
-            <td style={{ wordBreak: "break-word", padding: "8px" }}>
-              {row.branch}
-            </td>
+                  <td style={{ padding: '8px' }}>
+                    {row.rollNo}
+                  </td>
 
-            <td style={{ padding: "8px" }}>{row.phone || "-"}</td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      padding: '8px',
+                    }}
+                  >
+                    {row.branch}
+                  </td>
 
-            <td style={{ wordBreak: "break-all", padding: "8px" }}>
-              {row.membershipId}
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-</div>
+                  <td style={{ padding: '8px' }}>
+                    {row.phone || '-'}
+                  </td>
+
+                  <td
+                    style={{
+                      wordBreak: 'break-all',
+                      padding: '8px',
+                    }}
+                  >
+                    {row.membershipId}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

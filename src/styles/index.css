@@ -263,3 +263,72 @@ th {
   height: 1px;
   background: #102f56;
 }
+
+/* Team member row highlight — new color only */
+tr.tr-tm > td {
+  background: #dce8f5 !important;
+  color: #17365d !important;
+  border-top: 1px solid #b8cce3;
+  border-bottom: 1px solid #b8cce3;
+  transition: background-color 180ms ease;
+}
+
+/* Left accent */
+tr.tr-tm > td:first-child {
+  border-left: 4px solid #244f7d;
+  font-weight: 700;
+}
+
+/* Team role */
+.member-role {
+  display: inline-block;
+  margin-left: 10px;
+  color: #385b83;
+  font-family: 'Lora', serif;
+  font-size: 0.92em;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Hover */
+tr.tr-tm:hover > td {
+  background: #cbdcf0 !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .member-role {
+    display: block;
+    margin: 3px 0 0;
+  }
+}
+
+/* Contact page compass illustration */
+.contact-image-frame {
+  height: auto !important;
+  min-width: 0;
+  overflow: hidden;
+  background: #fffdf7;
+  border: 1px solid #d9cdb7;
+  box-shadow: 0 8px 24px rgba(37, 39, 43, 0.12);
+}
+
+.contact-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 768px) {
+  .contact-image-frame {
+    margin: 20px 0 !important;
+    transform: none !important;
+  }
+
+  .contact-illustration {
+    max-height: 420px;
+  }
+}

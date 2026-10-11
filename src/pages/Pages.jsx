@@ -13,6 +13,7 @@ import YearDraft from '../components/YearDraft.jsx';
 import SubEventView from '../components/SubEventView.jsx';
 import { useNav } from '../NavContext.jsx';
 import collegeImg from '../assets/img30.jpg';
+import compassImage from '../assets/compass-illustration.png';
 
 export function Section_community() {
   const { go, open_, openTL, openMemberTL, tl, teamYear } = useNav();
@@ -53,10 +54,228 @@ export function Section_calendar() {
 
 export function Section_contact() {
   const { go, open_, openTL, tl, teamYear } = useNav();
+
   return (
-    <Page id="contact"><Decor name="contact"></Decor><div className="note" style={{left:"2vw",top:"110px",background:"none",boxShadow:"none",transform:"rotate(-10deg)"}}>Let's<br />Build<br />Together</div><div className="wrap"><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"40px"}} className="ct"><div><p style={{letterSpacing:".25em",fontWeight:"600",color:"var(--navy)",fontSize:"13px"}} className="rv">GET IN TOUCH ——</p><h1 className="serif rv" style={{"--i":"1",font:"600 clamp(44px,6vw,68px) 'Lora'"}}>Contact Us</h1><p className="rv" style={{"--i":"2",margin:"12px 0 26px",color:"#4b5b78",lineHeight:"1.6"}}>Have a question, suggestion or just want to say hello? We'd love to hear from you. Reach out to us anytime!</p><ContactForm></ContactForm><div style={{display:"flex",gap:"22px",marginTop:"22px",fontSize:"12px",flexWrap:"wrap"}}><span>📍 <b>VVIT Campus</b><br />Guntur, Andhra Pradesh</span><span>📞 <b>+91 98765 43210</b><br />Mon - Fri, 9 AM - 5 PM</span><span>✉ <b>acm@vvitu.ac.in</b><br />We reply within 24 hours</span></div></div><div className="pol rv" style={{"--i":"3",transform:"rotate(4deg)",margin:"20px 10px",height:"min(480px,60vw)",paddingBottom:"12px"}}><i style={{height:"100%",background:"radial-gradient(circle at 50% 110%,#08122b,#123c9c 60%,#0a1d55)",position:"relative"}}><span className="hand" style={{position:"absolute",top:"22%",right:"10%",color:"#fff",fontSize:"34px",transform:"rotate(-14deg)"}}>See you<br />at the next event.</span></i></div></div><div className="vf"><div className="vfl"><div className="vlogo"></div><p className="vr"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0b2a55" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11l9-8 9 8M5 9.500V21h5v-6h4v6h5V9.500" /></svg><span>Vasireddy Venkatadri International Technological University<br />Nambur (V)<br />Peda Kakani (Md)<br />Guntur (Dt)<br />Andhra Pradesh<br />522508.</span></p><p className="vr"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0b2a55" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 3h4l2 5-2.500 1.500a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z" /></svg><a href="tel:08632263339">(0863)2263339</a></p><p className="vr"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0b2a55" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg><a href="mailto:acm.vvit@gmail.com">acm.vvit@gmail.com</a></p><p className="vr"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0b2a55" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg><a href="https://acm.vvitguntur.com" target="_blank" rel="noopener">acm.vvitguntur.com</a></p></div><div className="vfr"><h3>Google Map</h3><a className="vmap" href="https://www.google.com/maps/search/?api=1&query=Vasireddy+Venkatadri+International+Technological+University" target="_blank" rel="noopener" aria-label="Open VVIT University in Google Maps"></a></div></div></div></Page>
+    <Page id="contact">
+      <Decor name="contact" />
+
+      <div
+        className="note"
+        style={{
+          left: '2vw',
+          top: '110px',
+          background: 'none',
+          boxShadow: 'none',
+          transform: 'rotate(-10deg)',
+        }}
+      >
+        Let's<br />Build<br />Together
+      </div>
+
+      <div className="wrap">
+        <div
+          className="ct"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '40px',
+            alignItems: 'center',
+          }}
+        >
+          {/* Contact information and form */}
+          <div>
+            <p
+              className="rv"
+              style={{
+                letterSpacing: '.25em',
+                fontWeight: '600',
+                color: 'var(--navy)',
+                fontSize: '13px',
+              }}
+            >
+              GET IN TOUCH ——
+            </p>
+
+            <h1
+              className="serif rv"
+              style={{
+                '--i': '1',
+                font: "600 clamp(44px,6vw,68px) 'Lora'",
+              }}
+            >
+              Contact Us
+            </h1>
+
+            <p
+              className="rv"
+              style={{
+                '--i': '2',
+                margin: '12px 0 26px',
+                color: '#4b5b78',
+                lineHeight: '1.6',
+              }}
+            >
+              Have a question, suggestion or just want to say hello?
+              We'd love to hear from you. Reach out to us anytime!
+            </p>
+
+            <ContactForm />
+
+            <div
+              style={{
+                display: 'flex',
+                gap: '22px',
+                marginTop: '22px',
+                fontSize: '12px',
+                flexWrap: 'wrap',
+              }}
+            >
+              <span>
+                📍 <b>VVIT Campus</b>
+                <br />
+                Guntur, Andhra Pradesh
+              </span>
+
+              <span>
+                📞 <b>+91 98765 43210</b>
+                <br />
+                Mon - Fri, 9 AM - 5 PM
+              </span>
+
+              <span>
+                ✉ <b>acm@vvitu.ac.in</b>
+                <br />
+                We reply within 24 hours
+              </span>
+            </div>
+          </div>
+
+          {/* Compass illustration replaces the blue box */}
+          <div
+            className="pol rv contact-image-frame"
+            style={{
+              '--i': '3',
+              transform: 'rotate(2deg)',
+              margin: '20px 10px',
+              padding: '12px',
+            }}
+          >
+            <img
+              src={compassImage}
+              alt="See you at the next event — compass illustration"
+              className="contact-illustration"
+            />
+          </div>
+        </div>
+
+        {/* University contact details and Google Maps */}
+        <div className="vf">
+          <div className="vfl">
+            <div className="vlogo" />
+
+            <p className="vr">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#0b2a55"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 11l9-8 9 8M5 9.500V21h5v-6h4v6h5V9.500" />
+              </svg>
+              <span>
+                Vasireddy Venkatadri International Technological University
+                <br />
+                Nambur (V)
+                <br />
+                Peda Kakani (Md)
+                <br />
+                Guntur (Dt)
+                <br />
+                Andhra Pradesh
+                <br />
+                522508.
+              </span>
+            </p>
+
+            <p className="vr">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#0b2a55"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 3h4l2 5-2.500 1.500a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z" />
+              </svg>
+              <a href="tel:08632263339">(0863)2263339</a>
+            </p>
+
+            <p className="vr">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#0b2a55"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+              <a href="mailto:acm.vvit@gmail.com">
+                acm.vvit@gmail.com
+              </a>
+            </p>
+
+            <p className="vr">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#0b2a55"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+              </svg>
+              <a
+                href="https://acm.vvitguntur.com"
+                target="_blank"
+                rel="noopener"
+              >
+                acm.vvitguntur.com
+              </a>
+            </p>
+          </div>
+
+          <div className="vfr">
+            <h3>Google Map</h3>
+            <a
+              className="vmap"
+              href="https://www.google.com/maps/search/?api=1&query=Vasireddy+Venkatadri+International+Technological+University"
+              target="_blank"
+              rel="noopener"
+              aria-label="Open VVIT University in Google Maps"
+            />
+          </div>
+        </div>
+      </div>
+    </Page>
   );
 }
+
 
 export function Section_home() {
   const { go, open_, openTL, tl, teamYear } = useNav();
